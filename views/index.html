@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<style>
+		* {
+			font-size: 18pt;
+		}
+		.w3-row {
+			height: 5em;
+		}
+		.w3-row > div {
+			height: inherit;
+		}
+		button {
+			width: 100%;
+			height: inherit;
+		}
+	</style>
+	<title>xdotool server</title>
+</head>
+<body>
+	<div class="w3-row">
+		<div class="down w3-col s6">
+			<button onclick="sendAction('down')">-</button>
+		</div>
+		<div class="up w3-col s6">
+			<button onclick="sendAction('up')">+</button>
+		</div>
+	</div>
+	<div class="w3-row">
+		<div class="left w3-col s3">
+			<button onclick="sendAction('left')"><</button>
+		</div>
+		<div class="pause w3-col s6">
+			<button onclick="sendAction('space')">pause</button>
+		</div>
+		<div class="right w3-col s3">
+			<button onclick="sendAction('right')">></button>
+		</div>
+	</div>
+	<div class="w3-row">
+		<div class="w3-col s12">
+			<button onclick="sendAction('home')">Home</button>
+		</div>
+	</div>
+	<script>
+		function sendAction(action, value) {
+			fetch('./api/actions/' + action);
+		}
+	</script>
+</body>
