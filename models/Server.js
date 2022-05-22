@@ -2,9 +2,14 @@ import http from 'http';
 import express from 'express';
 import cors from 'cors';
 import { exec } from 'child_process';
+import Logger from './Logger.js';
 
 export default class Server {
 	constructor(config) {
+		Object.keys(config).forEach((key) => {
+			Logger.info(`${key}: ${JSON.stringify(config[key])}`);
+		});
+
 		this.port = config.port;
 		this.host = config.host;
 
@@ -16,10 +21,14 @@ export default class Server {
 	}
 
 	start() {
-		http.createServer(this.app).listen(this.port, this.host, () => console.log('Server running', this.host, this.port));
+		http
+			.createServer(this.app)
+			.listen(this.port, this.host, () => Logger.info('Server running http://' + this.host + ':' + this.port));
 	}
 
 	execKey(req, res) {
+		Logger.http(`${req.method} ${req.url}`);
+
 		const id = req.params.id;
 
 		const action = {
