@@ -16,7 +16,13 @@ export default class Server {
 		this.app = express();
 		this.app.use(cors(config.corsOptions));
 
-		this.app.use(express.static('/home/maxime/dev/xdotool_server/views/', ['html']));
+		// Logger
+		this.app.use((req, res, next) => {
+			Logger.http(`${req.method} ${req.url}`);
+			next();
+		});
+
+		this.app.get('/', this.getHome.bind(this));
 		this.app.get('/api/actions/:id', this.execKey.bind(this));
 	}
 
@@ -26,9 +32,11 @@ export default class Server {
 			.listen(this.port, this.host, () => Logger.info('Server running http://' + this.host + ':' + this.port));
 	}
 
-	execKey(req, res) {
-		Logger.http(`${req.method} ${req.url}`);
+	getHome(req, res) {
+		res.status(200).sendFile('/home/maxime/dev/xdotool_server/views/index.html');
+	}
 
+	execKey(req, res) {
 		const id = req.params.id;
 
 		const action = {
